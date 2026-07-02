@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+reports
+.git
+.gitignore
+.env
+*.log
+prisma/test.db
+Jenkinsfile
+sbom-spdx.json
