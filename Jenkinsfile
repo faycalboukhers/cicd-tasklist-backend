@@ -68,14 +68,13 @@ pipeline {
 
         stage('SBOM & Scan Trivy') {
             steps {
-                // Génération du SBOM au format SPDX
+                // Génération du SBOM au format SPDX (sortie standard redirigée vers l'espace de travail)
                 sh '''
                     docker run --rm \
                       -v /var/run/docker.sock:/var/run/docker.sock \
-                      -v "$PWD":/out \
                       aquasec/trivy:latest image \
-                      --format spdx-json --output /out/sbom-spdx.json \
-                      "$DOCKERHUB_USR/$IMAGE_NAME:$BUILD_NUMBER"
+                      --format spdx-json \
+                      "$DOCKERHUB_USR/$IMAGE_NAME:$BUILD_NUMBER" > sbom-spdx.json
                 '''
                 // Analyse des vulnérabilités de l'image (rapport, ne bloque pas)
                 sh '''
